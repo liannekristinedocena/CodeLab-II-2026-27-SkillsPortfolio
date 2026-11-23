@@ -1,6 +1,7 @@
 import os
 import random
 import tkinter as tk
+from PIL import ImageTK, Image
 from tkinter import messagebox
 
 root = tk.Tk()
@@ -8,7 +9,7 @@ root.title("Joke Assistant")
 root.geometry("520x440")
 root.resizable(0, 0)
 root.configure(bg='#f3d9b8')
-
+root.iconphoto(True,ImageTk.PhotoImage(file='fox.png'))
 
 jokes = []              
 current_punchline = "" 
