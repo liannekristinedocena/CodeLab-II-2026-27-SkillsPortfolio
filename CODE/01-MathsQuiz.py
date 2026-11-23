@@ -1,5 +1,6 @@
 import random
 import tkinter as tk
+from PIL import ImageTK, Image 
 from tkinter import messagebox
 
 root = tk.Tk()
@@ -7,6 +8,7 @@ root.title("Maths Quiz")
 root.geometry("460x450")
 root.resizable(0, 0)
 root.configure(bg='#eacdc7')
+root.iconphoto(True,ImageTk.PhotoImage(file.'calc.png')) 
 
 
 #Variables that will be used in the Quiz
