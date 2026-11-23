@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+from PIL import ImageTk, Image 
 from tkinter import messagebox
 
 root=tk.Tk()
@@ -7,38 +8,39 @@ root.title("Student Manager")
 root.geometry("640x560")
 root.resizable(0,0)
 root.configure(bg='#1f3a5f')
+root.iconphoto(True,ImageTk.PhotoImage(file='student.png'))
 
 MARKS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "studentMarks.txt")
 
 students=[]
 marks=160
 
-#code = student[0]
-#name = student[1]
-#course = student[2]
-#exam = student[3]
 
 def loadStudents(filename):
     info=[] #creates an empty list called info
     file = open(filename, encoding="utf-8-sig")
     file.readline()
 
-    for line in file:
-        line=line.strip()
-        parts=line.split(",")
+    for line in file: #runs through all the lines in the studentMarks file 
+        line=line.strip() #Removes all whitespace from the beginning and end of the string 
+        parts=line.split(",") #Splits the line into seperate values once a comma appears 
 
-        code=int(parts[0])
+        code=int(parts[0]) #Convert student codes from str to int. EX: '1111' becomes 1111
         name=parts[1]
-        course=int(parts[2])+int(parts[3])+int(parts[4])
-        exam=int(parts[5])
-        info.append([code, name, course, exam])
+        course=int(parts[2])+int(parts[3])+int(parts[4]) #Converts all three coursemarks into integers and adds for their total
+        exam=int(parts[5]) 
+        info.append([code, name, course, exam]) #Appends the student info to the info[] list. 
     file.close()
-    return info
+    return info #Allows information collected inside one function to be used somewhere else in the program 
 
+students = loadStudents(MARKS_FILE) #Recieves the the list returned by info 
+
+#A function that gets the total percentage of the students by adding the total course and exam mark together and multipying by 100. 
 def getPercentage(student):
     total=student[2]+student[3]
     return total / marks * 100
 
+#Assigns a grade based on the percentage receieved. 
 def getGrade(percentage):
     if percentage >= 70:
         return "A"
@@ -50,6 +52,7 @@ def getGrade(percentage):
         return "D"
     return "F"
 
+#A function that handles how the information will be formatted. 
 def format(student):
     code = student[0]
     name = student[1]
@@ -76,11 +79,11 @@ def viewAll():
     text = ""
     total_avr = 0
 
-    for student in students:
+    for student in students: #Goes through the student list one record at a time 
         text += format(student) + "\n"
         total_avr += getPercentage(student)
 
-    avr = total_avr / len(students)
+    avr = total_avr / len(students) #len counts how many student records are in the students list 
 
     text += "Number of students in class: " + str(len(students)) + "\n"
     text += "Average percentage mark: " + str(round(avr, 1)) + "%\n"
@@ -239,7 +242,6 @@ output.pack(side="left", expand=True, fill="both")
 scrollbar.config(command=output.yview)
 
 
-
 tk.Button(panel,
           text="Quit",
           width=14,
@@ -252,8 +254,6 @@ tk.Button(panel,
           command=root.destroy).pack(pady=(5, 12))
 
 
-# Load student records
-students = loadStudents(MARKS_FILE)
 showOutput("Choose an option above.")
 
 root.mainloop()
