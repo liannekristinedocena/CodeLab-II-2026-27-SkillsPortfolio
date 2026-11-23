@@ -1,3 +1,5 @@
+#Code was made, designed, tested, and finished using VS code (Visual Studios) and uploaded into github for submission. 
+
 import random
 import tkinter as tk
 from PIL import ImageTK, Image 
@@ -8,7 +10,7 @@ root.title("Maths Quiz")
 root.geometry("460x450")
 root.resizable(0, 0)
 root.configure(bg='#eacdc7')
-root.iconphoto(True,ImageTk.PhotoImage(file.'calc.png')) 
+root.iconphoto(True,ImageTk.PhotoImage(file='calc.png')) 
 
 
 #Variables that will be used in the Quiz
@@ -25,7 +27,7 @@ entry = None #No value assigned yet.
 feedback_label = None
 
 
-#Generates random numbers based on the difficulty level
+#A function that generates random numbers based on the difficulty level
 def randomInt(level):
 
     if level == "Easy":
@@ -49,7 +51,7 @@ def isCorrect(user_answer, correct_answer):
         return True, "Correct!"
     return False, "Sorry, wrong answer!"
 
-
+#Assigns A rank based on the score the user gets. 
 def Rank(score):
     if score > 90:
         return "A+"
@@ -71,9 +73,10 @@ frame.pack(expand=True,
            padx=25, pady=25)
 
 
+#Clears the contents of your GUI frame
 def clearFrame():
-    for widget in frame.winfo_children():
-        widget.destroy()
+    for widget in frame.winfo_children():#Goes through every widget inside the frame one at a time. 
+        widget.destroy() #Removes the widget from the GUI
 
 def Difficulty(chosen_level):
     confirm = messagebox.askyesno(
