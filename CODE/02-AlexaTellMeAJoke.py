@@ -11,8 +11,8 @@ root.resizable(0, 0)
 root.configure(bg='#f3d9b8')
 
 
-jokes = []              
-current_punchline = "" 
+jokes = [] #creates an empty jokes list         
+current_punchline = "" #creates an empty string variable that will store the punchline of the current joke 
 
 JOKES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "randomJokes.txt")
 
