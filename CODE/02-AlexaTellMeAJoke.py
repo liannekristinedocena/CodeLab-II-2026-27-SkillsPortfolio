@@ -1,15 +1,15 @@
 import os
 import random
 import tkinter as tk
-from PIL import ImageTK, Image
+from PIL import ImageTk, Image
 from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Joke Assistant")
-root.geometry("520x440")
+root.geometry("520x570")
 root.resizable(0, 0)
 root.configure(bg='#f3d9b8')
-root.iconphoto(True,ImageTk.PhotoImage(file='fox.png'))
+
 
 jokes = []              
 current_punchline = "" 
@@ -30,11 +30,32 @@ def loadJokes(filename):
     return loaded
 
 
+def confirmJoke():
+    confirm = messagebox.askyesno(
+        "Proceed?",
+        "Would you like to hear a joke?"
+    )
+
+    if confirm:
+        tellJoke()
+
+
+def confirmQuit():
+    confirm = messagebox.askyesno(
+        "Quit?",
+        "Are you sure you want to leave Mr. Fox?"
+    )
+
+    if confirm:
+        root.destroy()
+
+
 def tellJoke():
     global current_punchline
 
     setup, current_punchline = random.choice(jokes) #Picks a random joke and seperates the two items as two variables, setup and current punchline. 
     setup_label.config(text=setup) #Displays the question on the tkinter window. 
+    mascot_label.config(text="🤔") #the fox starts thinking
     punchline_label.config(text="") #Clears the punchline label
 
     tell_button.pack_forget() #Hides the tell joke button 
@@ -46,6 +67,7 @@ def tellJoke():
 
 
 def showPunchline():
+    mascot_label.config(text=random.choice(["😂", "🤣", "😆", "😹"])) #Picks a random laughing face
     punchline_label.config(text=current_punchline) #Displays the answer stored in current_punchline onto the program using the punchline label 
 
 
@@ -57,61 +79,71 @@ frame.pack(expand=True,
            padx=25, 
            pady=25)
 
-tk.Label(frame, text="Joke Assistant", font=("Arial", 22, "bold"),
-         bg='#fffaf2', fg='#c2571a').pack(pady=(5, 10))
+mascot_label = tk.Label(frame, text="🦊", font=("Century Gothic", 36), bg='#fffaf2')
+mascot_label.pack()
+
+
+tk.Label(frame, text="Joke Assistant ₊ ⊹", font=("Century Gothic", 22, "bold"),
+         bg='#fffaf2', fg='#d62828').pack(pady=(5, 10))
 
 setup_label = tk.Label(frame, 
-                       text="Press the button to hear a joke!",
+                       text="Are you having a bad day? Allow Mr. Fox to take over and make you laugh. Press the button to hear a joke!",
                        font=("Arial", 14), 
                        fg='#3b2a1e', 
                        bg='#fffaf2', 
-                       wraplength=440, 
+                       wraplength=380,
+                       width=36,
+                       padx=15,
+                       pady=10,
                        height=3)
 setup_label.pack(pady=5)
 
 punchline_label = tk.Label(frame, text="", 
-                           font=("Arial", 14, "bold"),
+                           font=("Century Gothic", 14, "bold"),
                            fg='#c2571a', 
                            bg='#fffaf2', 
-                           wraplength=440, 
+                           wraplength=440,
+                            width=36, 
+                           padx=15, 
+                           pady=10,
                            height=3)
 punchline_label.pack(pady=5)
 
 tell_button = tk.Button(frame, 
-                        text="Alexa tell me a Joke", 
+                        text="Mr Fox, tell me a Joke!", 
                         width=22,
-                        font=("Arial", 13), 
-                        bg='#f2b274', 
-                        fg='#3b2a1e', 
+                        font=("Century Gothic", 13, 'bold'), 
+                        bg='#d62828', 
+                        fg='white', 
                         cursor="hand2", 
-                        command=tellJoke)
+                        command=confirmJoke)
 tell_button.pack(pady=6)
 
 punchline_button = tk.Button(frame, 
-                             text="Show Punchline", 
+                             text="What, why, how?", 
                              width=22,
-                             font=("Arial", 13), 
-                             bg='#f2b274', 
-                             fg='#3b2a1e', 
+                             font=("Century Gothic", 13, 'bold'), 
+                             bg='#6a4c93', 
+                             fg='white', 
                              cursor="hand2", 
                              command=showPunchline)
 
 next_button = tk.Button(frame, 
-                        text="Next Joke", 
+                        text="One more, one more!", 
                         width=22,
-                        font=("Arial", 13), 
-                        bg='#f2b274', 
-                        fg='#3b2a1e', 
+                        font=("Century Gothic", 13, 'bold'), 
+                        bg='#2a9d8f', 
+                        fg='white', 
                         cursor="hand2", 
                         command=tellJoke)
 
-quit_button = tk.Button(frame, text="Quit", 
+quit_button = tk.Button(frame, text="I'm done for today", 
                         width=22,
-                        font=("Arial", 13), 
-                        bg='#e8dccb', 
-                        fg='#3b2a1e', 
+                        font=("Century Gothic", 13, 'bold'), 
+                        bg='#8d99ae', 
+                        fg='white', 
                         cursor="hand2", 
-                        command=root.destroy)
+                        command=confirmQuit)
 
 quit_button.pack(pady=6)
 
