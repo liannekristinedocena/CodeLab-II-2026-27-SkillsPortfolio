@@ -168,7 +168,7 @@ def loadRawStudents(filename):
 
 
 #a function that saves student info in the text file 
-def saveStudents():
+def saveStudents(): 
     global students #allows the function to update the global students list 
 
     file = open(MARKS_FILE, "w", encoding="utf-8-sig")
@@ -179,36 +179,36 @@ def saveStudents():
             str(student[0]) + "," + student[1] + "," +
             str(student[2]) + "," + str(student[3]) + "," +
             str(student[4]) + "," + str(student[5]) + "\n"
-        )
+        ) #writes each students information into the file, seperating each value with a comma 
 
-    file.close()
+    file.close() #closes the file after writing all student records 
 
-    students = loadStudents(MARKS_FILE)
+    students = loadStudents(MARKS_FILE) #reloads the updated file to refresh the students list 
 
 
-def addStudent(): 
-    form=tk.Toplevel(root)
-    form.title("Add Student")
+def addStudent(): #a function that creates a new window for adding student information 
+    form=tk.Toplevel(root) #creates a new window connected to the main application 
+    form.title("Add Student") 
     form.geometry("300x400")
 
-    entries=[]
+    entries=[] #creates an empty list to the store the entry widgets 
 
-    labels=["Student Code", "Name", "Coursework 1", "Coursework 2", "Coursework 3", "Exam"]
+    labels=["Student Code", "Name", "Coursework 1", "Coursework 2", "Coursework 3", "Exam"] #stores the name of the information list required by the user 
 
-    for label in labels:
-        tk.Label(form,text=label).pack()
-        entry=tk.Entry(form)
-        entry.pack(pady=5)
-        entries.append(entry) #appends the info recieved from the entry label to the empty entries list 
+    for label in labels: #Loops through each label 
+        tk.Label(form,text=label).pack() #and creates and displays a label in the form 
+        entry=tk.Entry(form) #creates an input box where the user can input information 
+        entry.pack(pady=5) 
+        entries.append(entry) #stores each entry widget in the entries list so its value can be retrieved later 
 
-    def submit():
+    def submit(): #a function that handles the information submitted by the user 
         try:
-            code = int(entries[0].get())
-            name = entries[1].get().strip()
-            coursework_1 = int(entries[2].get())
-            coursework_2 = int(entries[3].get())
-            coursework_3 = int(entries[4].get())
-            exam = int(entries[5].get()) #Recieves the information inputted by the user 
+            code = int(entries[0].get()) #retrieves the student code and converts it into an integer 
+            name = entries[1].get().strip() #retrieves student name 
+            coursework_1 = int(entries[2].get()) #retrieves the first coursework mark 
+            coursework_2 = int(entries[3].get()) #retrieves the second coursework mark 
+            coursework_3 = int(entries[4].get()) #retrieves the third coursework mark 
+            exam = int(entries[5].get()) #retrieves the exam mark
 
     
         except ValueError:
@@ -216,22 +216,25 @@ def addStudent():
             return #runs when the user fails to enter a valid whole number 
 
         rawStudents.append([code, name, coursework_1, coursework_2, coursework_3, exam]) #appends the new values into the new text file
-        saveStudents()
+        saveStudents() #calls the function to save new student information into the text file 
         showOutput("Student added successfully!")
 
-    tk.Button(form, text="Add Student", command=submit).pack(pady=15)
-        
+    tk.Button(form, text="Add Student", command=submit).pack(pady=15) #creates a button that runs the submit function when clicked 
 
-def deleteStudent(): 
+
+#a function that deletes a student based on a given student code
+def deleteStudent():  
     form = tk.Toplevel(root)
     form.title("Delete Student")
     form.geometry("300x150")
 
     tk.Label(form, text="Enter Student Code:").pack(pady=5) #tells the user to enter a student code
 
-    entry = tk.Entry(form)
-    entry.pack(pady=5)
+    entry = tk.Entry(form) #creates an input box 
+    entry.pack(pady=5) #displays input box in the window 
 
+
+#a nested function that handles the deletion of the student 
     def delete(): 
         try:
             code=int(entry.get()) #gets the number inputted by the user
@@ -252,7 +255,7 @@ def deleteStudent():
     tk.Button(form, text="Delete", command=delete).pack(pady=10)
 
 
-def updateStudent(): 
+def updateStudent(): # a function that updates a student in the student records 
     form = tk.Toplevel(root)
     form.title("Update Student")
     form.geometry("300x180")
@@ -277,20 +280,20 @@ def updateStudent():
                 edit.title("Edit Student")
                 edit.geometry("300x400")
 
-                entries = []
+                entries = [] #creates an empty list to store the input boxes 
                 labels = ["Student Code", "Name", "Coursework 1",
-                          "Coursework 2", "Coursework 3", "Exam"]
+                          "Coursework 2", "Coursework 3", "Exam"] #stores the label for each student details 
 
-                for i in range(6):
-                    tk.Label(edit, text=labels[i]).pack()
-                    box = tk.Entry(edit)
+                for i in range(6): #repeats 6 times to create an input box for each detail 
+                    tk.Label(edit, text=labels[i]).pack() #displays the label for each current detail 
+                    box = tk.Entry(edit) #creates an input box 
                     box.pack(pady=5)
-                    box.insert(0, str(student[i]))
-                    entries.append(box)
+                    box.insert(0, str(student[i])) #fills the input box with a students current information 
+                    entries.append(box) #adds the input box to the entry list 
 
                 def saveUpdate():
                     try:
-                        code = int(entries[0].get())
+                        code = int(entries[0].get()) #gets all the updated information 
                         name = entries[1].get().strip()
                         coursework_1 = int(entries[2].get())
                         coursework_2 = int(entries[3].get())
@@ -300,49 +303,49 @@ def updateStudent():
                         messagebox.showerror("Error", "Invalid input.")
                         return
 
-                    student[0] = code
+                    student[0] = code #updates the student code, name, courseworks, and exams
                     student[1] = name
                     student[2] = coursework_1
                     student[3] = coursework_2
                     student[4] = coursework_3
                     student[5] = exam
 
-                    saveStudents()
+                    saveStudents() #saves the updated student records to the file 
                     showOutput("Student updated successfully!")
-                    edit.destroy()
+                    edit.destroy() #closes the editing window 
 
                 tk.Button(edit, text="Save Changes",
-                          command=saveUpdate).pack(pady=15)
+                          command=saveUpdate).pack(pady=15) #creates a button that saves the updated details 
 
-                return
+                return #stops searching once the matching student has been found 
 
         messagebox.showerror("Error", "Student not found.")
 
     tk.Button(form, text="Find Student",
-              command=findStudent).pack(pady=10)
+              command=findStudent).pack(pady=10) #creates a button that searches for the student 
 
 
 def sortStudents(order): 
 
 #Created with the help of CLAUDE AI. PROMPT USED: "How do I make an ascending and descending list in python tkinter?"
     if order == "ascending":
-        sorted_student = sorted(students, key=lambda s: s[2] + s[3])
+        sorted_student = sorted(students, key=lambda s: s[2] + s[3]) #sorts students from lowest to highest based on the total of coursework 1 and 2 
     else:
-        sorted_student = sorted(students, key=lambda s: s[2] + s[3], reverse=True)
+        sorted_student = sorted(students, key=lambda s: s[2] + s[3], reverse=True) #sorts from highest to lowest 
 
-    text = ""
-    total_avr = 0
+    text = "" #creates an empty string to store student info 
+    total_avr = 0 #initialises the variable to store the class average
 
-    for student in sorted_student:
-        text += format(student) + "\n"
-        total_avr += getPercentage(student)
+    for student in sorted_student: #loops through the sorted student records 
+        text += format(student) + "\n" #adds each student information to the text output 
+        total_avr += getPercentage(student) #adds each student percentage to the total 
 
-    avr = total_avr / len(sorted_student)
+    avr = total_avr / len(sorted_student) #calculates the average percentage of the class
 
-    text += "\nNumber of students in class: " + str(len(sorted_student))
-    text += "\nAverage percentage mark: " + str(round(avr, 1)) + "%"
+    text += "\nNumber of students in class: " + str(len(sorted_student)) #adds the total number of students to the output 
+    text += "\nAverage percentage mark: " + str(round(avr, 1)) + "%" #adds the class average. rounded to 1 decimal place
 
-    showOutput(text)
+    showOutput(text) #displays all the student info 
 
 
 #GUI
@@ -437,7 +440,7 @@ tk.Button(search_frame,
 search_entry.bind("<Return>", lambda event: search())
 
 
-#Output box (this is where the records are shown)
+#Output box 
 output_frame = tk.Frame(main, bg="#f4f6f9")
 output_frame.pack(expand=True, fill="both", padx=30, pady=(0, 25))
 
